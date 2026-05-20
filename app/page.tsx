@@ -1,0 +1,147 @@
+import { supabase } from '@/lib/supabase'
+
+export default async function Home() {
+  // const { data: spots, error } = await supabase
+  //   .from('spots')
+  //   .select('*')
+
+  // console.log('spots->',spots)
+  // console.log('spots error->', error)
+
+  // return (
+  //   <main className="p-8">
+  //     <h1 className="text-4xl font-bold">
+  //       StreetEats 🍢
+  //     </h1>
+
+  //     <div className="mt-6">
+  //       {spots?.map((spot) => (
+  //         <div
+  //           key={spot.id}
+  //           className="border rounded-xl p-4 mb-4"
+  //         >
+  //           <h2 className="font-semibold">
+  //             {spot.name}
+  //           </h2>
+
+  //           <p>
+  //             📍 {spot.address}
+  //           </p>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   </main>
+  // )
+
+    const spots = [
+      {
+        id: 1,
+        name: "VV Puram Dosa Camp",
+        channel: "Food Lovers TV",
+        image:
+          "https://i.ytimg.com/vi/2Y5IQIC8mh8/sddefault.jpg"
+      },
+      {
+        id: 2,
+        name: "Idli Corner",
+        channel: "Food Lovers TV",
+        image:
+          "https://i.ytimg.com/vi/4lmvpe3kiac/sddefault.jpg"
+      },
+    ]
+  
+    return (
+      <main className="min-h-screen bg-[#f7f3ee] flex justify-center py-6 px-4">
+        <div className="w-full max-w-md">
+          {/* HEADER */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="bg-orange-500 text-white p-2 rounded-xl text-xl">
+                🍢
+              </div>
+  
+              <h1 className="text-3xl font-bold text-black">
+                StreetEats
+              </h1>
+            </div>
+  
+            <div className="flex items-center gap-3">
+              <button className="text-2xl">
+                🔍
+              </button>
+  
+              <button className="bg-orange-100 px-4 py-2 rounded-full font-medium">
+                BLR
+              </button>
+            </div>
+          </div>
+  
+          {/* MAP SECTION */}
+          <div className="relative h-[420px] rounded-[32px] overflow-hidden bg-[#efe5d7] mb-6">
+            <img
+              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1200&auto=format&fit=crop"
+              alt="map"
+              className="w-full h-full object-cover opacity-20"
+            />
+  
+            {/* MARKERS */}
+            <div className="absolute top-16 left-16 text-5xl">
+              📍
+            </div>
+  
+            <div className="absolute top-32 right-20 text-5xl">
+              📍
+            </div>
+  
+            <div className="absolute bottom-24 left-24 text-5xl">
+              📍
+            </div>
+          </div>
+  
+          {/* FOOD LIST */}
+          <section>
+            <h2 className="text-4xl font-bold mb-6">
+             That Famous Street food ! 🤤
+            </h2>
+  
+            <div className="space-y-4">
+              {spots.map((spot) => (
+                <div
+                  key={spot.id}
+                  className="bg-white rounded-3xl p-4 shadow-sm flex gap-4"
+                >
+                  <img
+                    src={spot.image}
+                    alt={spot.name}
+                    className="w-32 h-32 rounded-2xl object-cover"
+                  />
+  
+                  <div className="flex flex-col justify-between flex-1">
+                    <div>
+                      <h3 className="text-2xl font-semibold">
+                        {spot.name}
+                      </h3>
+  
+                      <p className="text-gray-500 mt-1">
+                        {spot.channel}
+                      </p>
+                    </div>
+  
+                    <div className="flex gap-6 mt-4">
+                      <button className="flex items-center gap-2 font-medium text-lg">
+                        ▶ Watch
+                      </button>
+  
+                      <button className="flex items-center gap-2 font-medium text-lg">
+                        🌍 Maps
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </main>
+    )
+}
