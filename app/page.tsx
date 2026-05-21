@@ -1,55 +1,51 @@
 import { supabase } from '@/lib/supabase'
 
 export default async function Home() {
-  // const { data: spots, error } = await supabase
-  //   .from('spots')
-  //   .select('*')
+  const { data : spots, error } = await supabase
+  .from('spots')
+  .select(`
+    id,
+    name,
+    videos (
+      thumbnail_url,
+      channels (
+        name
+      )
+    )
+  `)
 
-  // console.log('spots->',spots)
-  // console.log('spots error->', error)
+  if (error) {
+    console.error(error)
+    return <div>Error: {error.message}</div>
+  }
 
-  // return (
-  //   <main className="p-8">
-  //     <h1 className="text-4xl font-bold">
-  //       StreetEats 🍢
-  //     </h1>
+  if (!spots) {
+    return <div>No spots found</div>
+  }
 
-  //     <div className="mt-6">
-  //       {spots?.map((spot) => (
-  //         <div
-  //           key={spot.id}
-  //           className="border rounded-xl p-4 mb-4"
-  //         >
-  //           <h2 className="font-semibold">
-  //             {spot.name}
-  //           </h2>
+  console.log("spots-->",spots)
 
-  //           <p>
-  //             📍 {spot.address}
-  //           </p>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   </main>
-  // )
-
-    const spots = [
-      {
-        id: 1,
-        name: "VV Puram Dosa Camp",
-        channel: "Food Lovers TV",
-        image:
-          "https://i.ytimg.com/vi/2Y5IQIC8mh8/sddefault.jpg"
-      },
-      {
-        id: 2,
-        name: "Idli Corner",
-        channel: "Food Lovers TV",
-        image:
-          "https://i.ytimg.com/vi/4lmvpe3kiac/sddefault.jpg"
-      },
-    ]
+  const spotsData = spots.map((spot) => {
+    const videos = spot.videos
+    const video = Array.isArray(videos) ? videos[0] : videos
   
+    const channels = video?.channels
+    const channel = Array.isArray(channels) ? channels[0] : channels
+  
+    return {
+      id: spot.id,
+      name: spot.name,
+      image: video?.thumbnail_url ?? '',
+      channel: channel?.name ?? '',
+    }
+  })
+  
+  console.log("spotsData-->",spotsData)
+
+  if (!spotsData) {
+    return <div>No spots data found</div>
+  }
+
     return (
       <main className="min-h-screen bg-[#f7f3ee] flex justify-center py-6 px-4">
         <div className="w-full max-w-md">
@@ -105,7 +101,7 @@ export default async function Home() {
             </h2>
   
             <div className="space-y-4">
-              {spots.map((spot) => (
+              {spotsData.map((spot) => (
                 <div
                   key={spot.id}
                   className="bg-white rounded-3xl p-4 shadow-sm flex gap-4"
