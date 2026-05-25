@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DEFAULT_RADIUS_KM, FALLBACK_CENTER } from '@/lib/constants'
+import { withDemoSpot } from '@/lib/demo-spots'
 import { filterAndSortByDistance, type LatLng } from '@/lib/geo'
 import type { SpotCard } from '@/lib/spots'
 import { SpotsDrawer } from './SpotsDrawer'
@@ -47,7 +48,8 @@ export function HomeScreen({ spots, mapsApiKey }: HomeScreenProps) {
 
   const nearbySpots = useMemo(() => {
     if (!userCenter) return []
-    return filterAndSortByDistance(spots, userCenter, DEFAULT_RADIUS_KM)
+    const withDemo = withDemoSpot(spots, userCenter)
+    return filterAndSortByDistance(withDemo, userCenter, DEFAULT_RADIUS_KM)
   }, [spots, userCenter])
 
   useEffect(() => {
